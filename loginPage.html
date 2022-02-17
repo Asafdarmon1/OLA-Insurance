@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <!-- jQuery -->
+    <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+    <script src="js/jquery.cookie.js"></script>
+    <!-- BS JavaScript -->
+    <script type="text/javascript" src="js/bootstrap.js"></script>
+    <!-- Have fun using Bootstrap JS -->
+    <script type="text/javascript"></script>
+
+    <!--
+    <link rel="stylesheet"  href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">-->
+    <!-- jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <!-- Popper JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <!-- Latest compiled JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+
+    <!-- favicon -->
+    <link rel="icon" type="image/png" href="/img/favicon.ico" sizes="32X32" />
+
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Login Page</title>
+
+    <!--Bootsrap 4 CDN-->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+
+    <!--Fontawesome CDN-->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.8/css/all.css" integrity="sha384-3AB7yXWz4OeoZcPbieVW64vVXEwADiYyAEhwilzWsLw+9FgqpyjjStpPnpBO8o8S" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.3/css/v4-shims.css">
+    <!--Custom styles-->
+    <link rel="stylesheet" type="text/css" href="css/loginCss.css">
+    <!--send content to server-->
+    <script>
+        function loginReq() {
+            var username = $('#userName').val();
+            var pass = $('#password').val();
+
+            var json = {
+                'username': username,
+                'password': pass
+            }
+
+            $.ajax({
+                url: "/login",
+                type: "POST",
+                data: json,
+                success: function(response) {
+                    if (response.status == 'error') {
+                        $("#myModal").modal("show");
+                        $(".modal-body #modalBody").text(response.error);
+                        $(".modal-header #modalTitle").text("Error Message");
+
+                    } else {
+                        //Set cookie start
+                        if ($('#remember').is(':checked')) {
+                            var username = $('#userName').val();
+                            var password = $('#password').val();
+                            // set cookies to expire in 14 days
+                            $.cookie('userName', username, {
+                                expires: 14
+                            });
+                            $.cookie('password', password, {
+                                expires: 14
+                            });
+                            $.cookie('remember', true, {
+                                expires: 14
+                            });
+                        } else {
+                            // reset cookies
+                            $.cookie('userName', null);
+                            $.cookie('password', null);
+                            $.cookie('remember', null);
+                        }
+                        //Set cookie end
+                        document.location.href = response.redirect;
+                    }
+
+                },
+                error: function(xhr, status, errmsg) { // XHR - XMLHttpRequest 
+                    alert(errmsg + "  " + status);
+                }
+            });
+        }
+    </script>
+
+</head>
+
+<body>
+    <div class="container" id="login">
+        <div class="d-flex justify-content-center h-100">
+            <div class="card" id="subscribeForm">
+                <div class="card-header">
+                    <h3>Sign In</h3>
+                    <div class="d-flex justify-content-end social_icon">
+                        <span><i><a href="http://www.facebook.com" class="fa fa-facebook-square"></a></i></span>
+                        <span><i><a href="https://www.instagram.com/" class="fa fa-instagram"></a></i></span>
+                        <span><i><a href=" http://twitter.com/" class="fa fa-twitter-square"></a></i></span>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <form id="login">
+                        <div class="input-group form-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text"><i class="fas fa-user"></i></span>
+                            </div>
+                            <input type="text" class="form-control" id="userName" placeholder="User Name" required>
+
+                        </div>
+
+                        <div class="input-group form-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text"><i class="fas fa-key"></i></span>
+                            </div>
+                            <input type="password" id="password" class="form-control" placeholder="password" required>
+                        </div>
+                        <div class="row align-items-center remember">
+                            <input type="checkbox" id="remember">Remember Me
+                        </div>
+                        <br>
+                        <div class="col text-center">
+                            <button type="button" value="Login" class="btn login_btn" onclick="loginReq(); return false;">Login</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Logout Modal-->
+    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">×</span>
+            </button>
+                </div>
+                <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                    <a class="btn btn-primary" href="/">Logout</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="myModal" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <p type="text" id="modalTitle"></p>
+                </div>
+                <div class="modal-body">
+                    <p type="text" id="modalBody"></p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+
+    <script>
+        $(document).ready(function() {
+
+            var remember = $.cookie('remember');
+            if (remember == 'true') {
+
+                var username = $.cookie('userName');
+                var password = $.cookie('password');
+
+                //autofill the fields
+                $('#userName').val(username);
+                $('#password').val(password);
+                $('#remember').prop("checked", true);
+
+                setTimeout(function() {
+                    $.ajax(document.location.href = "/dashboard");
+                }, 1500);
+
+
+
+            }
+
+        });
+    </script>
+
+
+
+
+
+
+
+
+
+
+
+</body>
+
+</html>

@@ -1,0 +1,301 @@
+<!-- Latest compiled and minified CSS -->
+<!-- jQuery library -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<!-- Popper JS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+<!-- Latest compiled JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Ola Insurance - New Insurance Request</title>
+
+    <!--Bootsrap 4 CDN-->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+
+    <!--Fontawesome CDN-->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.8/css/all.css" integrity="sha384-3AB7yXWz4OeoZcPbieVW64vVXEwADiYyAEhwilzWsLw+9FgqpyjjStpPnpBO8o8S" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.3/css/v4-shims.css">
+    <!--Custom styles-->
+    <link rel="stylesheet" type="text/css" href="css/newInsurance.css">
+
+    <!-- favicon -->
+    <link rel="icon" type="image/png" href="/img/favicon.ico" sizes="32X32" />
+    <script>
+        function addDollar() {
+
+            var temp = document.getElementById("InsuranceAmount").value;
+            var dollar = "$";
+
+            while (temp.includes(dollar))
+                temp = temp.replace(dollar, "");
+
+            temp = dollar.concat(temp);
+            document.getElementById("InsuranceAmount").value = temp;
+        }
+
+
+        function validateNewInsurance() {
+            var mailformat = /^[a-zA-Z0-9.!#$%&'+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)$/;
+            var numbersOnly = /^[0-9]+$/;
+            var letters = /^[A-Za-z\s]+$/;
+            var FirstName = document.getElementById("FirstName").value;
+            var LastName = document.getElementById("LastName").value;
+            var SocialNumber = document.getElementById("SocialNumber").value;
+            var Email = document.getElementById("Email").value;
+            var Phone = document.getElementById("Phone").value;
+            var InsuranceAmount = document.getElementById("InsuranceAmount").value;
+            var PreviousInsuranceNumber = document.getElementById("PreviousInsuranceNumber").value;
+            var PreviousInsuranceId = document.getElementById("PreviousInsuranceId").value;
+            var PreviousInsuranceCompany = document.getElementById("PreviousInsuranceCompany").value;
+            var Comments = document.getElementById("Comments").value;
+            var ErrorFlag = 0;
+
+            if (letters.test(FirstName) == false) {
+                document.getElementById("FirstName").style.borderWidth = "thick";
+                document.getElementById("FirstName").style.borderColor = "red";
+                document.getElementById("FirstNameError").innerHTML = "*First name must be in english";
+                ErrorFlag = 1;
+            } else {
+                document.getElementById("FirstName").style.borderWidth = "thin";
+                document.getElementById("FirstName").style.borderColor = "blue";
+                document.getElementById("FirstNameError").innerHTML = "";
+            }
+
+            if (letters.test(LastName) == false) {
+                document.getElementById("LastName").style.borderWidth = "thick";
+                document.getElementById("LastName").style.borderColor = "red";
+                document.getElementById("LastNameError").innerHTML = "*Last name must be in english";
+                ErrorFlag = 1;
+            } else {
+                document.getElementById("LastName").style.borderWidth = "thin";
+                document.getElementById("LastName").style.borderColor = "blue";
+                document.getElementById("LastNameError").innerHTML = "";
+            }
+
+            if (numbersOnly.test(SocialNumber) == false) {
+                document.getElementById("SocialNumber").style.borderWidth = "thick";
+                document.getElementById("SocialNumber").style.borderColor = "red";
+                document.getElementById("SocialNumberError").innerHTML = "*Social number must be numbers";
+                ErrorFlag = 1;
+            } else {
+                document.getElementById("SocialNumber").style.borderWidth = "thin";
+                document.getElementById("SocialNumber").style.borderColor = "blue";
+                document.getElementById("SocialNumberError").innerHTML = "";
+            }
+
+            if (mailformat.test(Email) == false) {
+                document.getElementById("Email").style.borderWidth = "thick";
+                document.getElementById("Email").style.borderColor = "red";
+                document.getElementById("EmailError").innerHTML = "*Invalid email adress";
+                ErrorFlag = 1;
+            } else {
+                document.getElementById("Email").style.borderWidth = "thin";
+                document.getElementById("EmailError").style.borderColor = "blue";
+                document.getElementById("EmailError").innerHTML = "";
+            }
+
+            if (numbersOnly.test(Phone) == false || Phone.length != 10) {
+                document.getElementById("Phone").style.borderWidth = "thick";
+                document.getElementById("Phone").style.borderColor = "red";
+                document.getElementById("PhoneError").innerHTML = "*Phone must contain 10 numbers";
+                ErrorFlag = 1;
+            } else {
+                document.getElementById("Phone").style.borderWidth = "thin";
+                document.getElementById("Phone").style.borderColor = "blue";
+                document.getElementById("PhoneError").innerHTML = "";
+            }
+
+            InsuranceAmount = InsuranceAmount.replace("$", "");
+            if (numbersOnly.test(InsuranceAmount) == false) {
+                document.getElementById("InsuranceAmount").style.borderWidth = "thick";
+                document.getElementById("InsuranceAmount").style.borderColor = "red";
+                document.getElementById("InsuranceAmountError").innerHTML = "*Insurance amount contain numbers";
+                ErrorFlag = 1;
+            } else {
+                document.getElementById("InsuranceAmount").style.borderWidth = "thin";
+                document.getElementById("InsuranceAmount").style.borderColor = "blue";
+                document.getElementById("InsuranceAmountError").innerHTML = "";
+            }
+
+            if (numbersOnly.test(PreviousInsuranceNumber) == false) {
+                document.getElementById("PreviousInsuranceNumber").style.borderWidth = "thick";
+                document.getElementById("PreviousInsuranceNumber").style.borderColor = "red";
+                document.getElementById("PreviousInsuranceNumberError").innerHTML = "*Previous insurance number must contain numbers";
+                ErrorFlag = 1;
+            } else {
+                document.getElementById("PreviousInsuranceNumber").style.borderWidth = "thin";
+                document.getElementById("PreviousInsuranceNumber").style.borderColor = "blue";
+                document.getElementById("PreviousInsuranceNumberError").innerHTML = "";
+            }
+
+            if (numbersOnly.test(PreviousInsuranceId) == false) {
+                document.getElementById("PreviousInsuranceId").style.borderWidth = "thick";
+                document.getElementById("PreviousInsuranceId").style.borderColor = "red";
+                document.getElementById("PreviousInsuranceIdError").innerHTML = "*Previous insurance ID must contain numbers";
+                ErrorFlag = 1;
+            } else {
+                document.getElementById("PreviousInsuranceId").style.borderWidth = "thin";
+                document.getElementById("PreviousInsuranceId").style.borderColor = "blue";
+                document.getElementById("PreviousInsuranceIdError").innerHTML = "";
+            }
+
+            if (PreviousInsuranceCompany == "empty1") {
+                document.getElementById("PreviousInsuranceCompany").style.borderWidth = "thick";
+                document.getElementById("PreviousInsuranceCompany").style.borderColor = "red";
+                document.getElementById("PreviousInsuranceCompanyError").innerHTML = "*Please select your previous insurance company";
+                ErrorFlag = 1;
+            } else {
+                document.getElementById("PreviousInsuranceCompany").style.borderWidth = "thin";
+                document.getElementById("PreviousInsuranceCompany").style.borderColor = "blue";
+                document.getElementById("PreviousInsuranceCompanyError").innerHTML = "";
+            }
+
+            if (Comments == "") {
+                document.getElementById("Comments").style.borderWidth = "thick";
+                document.getElementById("Comments").style.borderColor = "red";
+                document.getElementById("CommentsError").innerHTML = "*Comments cannot be empty";
+                ErrorFlag = 1;
+            } else {
+                document.getElementById("Comments").style.borderWidth = "thin";
+                document.getElementById("Comments").style.borderColor = "blue";
+                document.getElementById("CommentsError").innerHTML = "";
+            }
+
+            if (ErrorFlag == 0) {
+
+                var json = {
+                    'Severity': "-",
+                    'FirstName': FirstName,
+                    'LastName': LastName,
+                    'SocialNumber': SocialNumber,
+                    'Email': Email,
+                    'Phone': Phone,
+                    'InsuranceAmount': InsuranceAmount,
+                    'PreviousInsuranceNumber': PreviousInsuranceNumber,
+                    'PreviousInsuranceId': PreviousInsuranceId,
+                    'PreviousInsuranceCompany': PreviousInsuranceCompany,
+                    'Comments': Comments
+                }
+
+                $.ajax({
+                    url: "/NewInsurance",
+                    type: "POST",
+                    data: json,
+                    success: function(response) {
+                        console.log(response);
+                        document.location.href = response.redirect;
+                    },
+                    error: function(xhr, status, errmsg) { // XHR - XMLHttpRequest
+                        alert(errmsg + "  " + status);
+                    }
+                });
+                return true;
+            }
+
+            return false;
+        }
+    </script>
+</head>
+
+<body>
+    <div class="container-fluid" id="NewInsurance">
+        <div class="d-flex justify-content-center">
+            <div class="card" id="subscribeForm">
+                <div class="card-header">
+                    <h3>Welcome to O.L.A Insurance</h3>
+                    <h4>Please insert your details</h4>
+                </div>
+                <div class="card-body">
+                    <form>
+                        <div class="input-group form-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text"><i class="fas fa-user"></i></span>
+                            </div>
+                            <input type="text" class="form-control" id="FirstName" placeholder="First Name">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text"><i class="fas fa-user"></i></span>
+                            </div>
+                            <input type="text" class="form-control" id="LastName" placeholder="Last Name">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text"><i class="fas fa-plus-circle"></i></span>
+                            </div>
+                            <input type="text" id="SocialNumber" class="form-control" placeholder="Social number">
+                        </div>
+
+
+                        <div class="input-group form-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text"><i class="fas fa-envelope"></i></span>
+                            </div>
+                            <input type="text" id="Email" class="form-control" placeholder="E-mail address">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text"><i class="fas fa-phone"></i></span>
+                            </div>
+                            <input type="text" id="Phone" class="form-control" placeholder="Phone number">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text"><i class="fas fa-money-bill-alt"></i></span>
+                            </div>
+                            <input type="text" id="InsuranceAmount" class="form-control" placeholder="Insurance amount" onfocusout="addDollar()">
+                        </div>
+
+
+                        <div class="input-group form-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text"><i class="fas fa-plus-circle"></i></span>
+                            </div>
+                            <input type="text" id="PreviousInsuranceNumber" class="form-control" placeholder="Previous insurance number">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text"><i class="fas fa-plus-circle"></i></span>
+                            </div>
+                            <input type="text" id="PreviousInsuranceId" class="form-control" placeholder="Previous insurance id">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text"><i class="fas fa-plus-circle"></i></span>
+                            </div>
+                            <select type="text" id="PreviousInsuranceCompany" class="form-control">
+                                <option value="empty1">Previous insurance company:</option>
+                                <option value="Harel">Harel</option>
+                                <option value="Migdal">Migdal</option>
+                                <option value="Yashir">Yashir</option>
+                                <option value="Other">Other</option>
+                            </select>
+                        </div>
+
+
+                        <div class="input-group form-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text"><i class="fas fa-comment"></i></span>
+                            </div>
+                            <input type="text" id="Comments" class="form-control" placeholder="Enter comment">
+                        </div>
+
+
+                        <p class="errorMsg"><span id="FirstNameError" style="color:white;"></span></p>
+                        <p class="errorMsg"><span id="LastNameError" style="color:white;"></span></p>
+                        <p class="errorMsg"><span id="SocialNumberError" style="color:white;"></span></p>
+                        <p class="errorMsg"><span id="EmailError" style="color:white;"></span></p>
+                        <p class="errorMsg"><span id="PhoneError" style="color:white;"></span></p>
+                        <p class="errorMsg"><span id="InsuranceAmountError" style="color:white;"></span></p>
+                        <p class="errorMsg"><span id="PreviousInsuranceNumberError" style="color:white;"></span></p>
+                        <p class="errorMsg"><span id="PreviousInsuranceIdError" style="color:white;"></span></p>
+                        <p class="errorMsg"><span id="PreviousInsuranceCompanyError" style="color:white;"></span></p>
+                        <p class="errorMsg"><span id="CommentsError" style="color:white;"></span></p>
+
+                        <div class="col text-center">
+                            <input type="submit" value="OK" class="btn login_btn" onclick="validateNewInsurance();return false;">
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
